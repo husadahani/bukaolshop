@@ -1,103 +1,178 @@
-import Image from "next/image";
+import Image from 'next/image';
+import ProductList from '@/components/products/ProductList';
+import { Product, PaginatedResponse } from '@/types';
 
-export default function Home() {
+// Mock data untuk demo
+const mockProducts: Product[] = [
+  {
+    id: '1',
+    nama_barang: 'Smartphone Samsung Galaxy A54',
+    harga_barang: 4500000,
+    harga_barang_asli: 5000000,
+    url_gambar_barang: 'https://via.placeholder.com/300x300?text=Smartphone',
+    url_produk: '/produk/smartphone-samsung-galaxy-a54',
+    discount_percent: 10
+  },
+  {
+    id: '2',
+    nama_barang: 'Laptop ASUS ROG Strix G15',
+    harga_barang: 15000000,
+    harga_barang_asli: 15000000,
+    url_gambar_barang: 'https://via.placeholder.com/300x300?text=Laptop',
+    url_produk: '/produk/laptop-asus-rog-strix-g15'
+  },
+  {
+    id: '3',
+    nama_barang: 'Headphone Sony WH-1000XM4',
+    harga_barang: 3500000,
+    harga_barang_asli: 4000000,
+    url_gambar_barang: 'https://via.placeholder.com/300x300?text=Headphone',
+    url_produk: '/produk/headphone-sony-wh-1000xm4',
+    discount_percent: 12
+  },
+  {
+    id: '4',
+    nama_barang: 'Smartwatch Apple Watch Series 8',
+    harga_barang: 8000000,
+    harga_barang_asli: 8000000,
+    url_gambar_barang: 'https://via.placeholder.com/300x300?text=Smartwatch',
+    url_produk: '/produk/smartwatch-apple-watch-series-8'
+  },
+  {
+    id: '5',
+    nama_barang: 'Camera Canon EOS R6',
+    harga_barang: 25000000,
+    harga_barang_asli: 28000000,
+    url_gambar_barang: 'https://via.placeholder.com/300x300?text=Camera',
+    url_produk: '/produk/camera-canon-eos-r6',
+    discount_percent: 11
+  },
+  {
+    id: '6',
+    nama_barang: 'Tablet iPad Pro 12.9',
+    harga_barang: 18000000,
+    harga_barang_asli: 18000000,
+    url_gambar_barang: 'https://via.placeholder.com/300x300?text=Tablet',
+    url_produk: '/produk/tablet-ipad-pro-12-9'
+  }
+];
+
+const mockProductListData: PaginatedResponse<Product> = {
+  status: 'ok',
+  data: mockProducts,
+  current_page: 1,
+  total_pages: 3,
+  total_items: 18,
+  next_page_url: '/?page=2',
+  back_page_url: undefined
+};
+
+export default function HomePage() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <main className="min-h-screen">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-green-600 to-green-800 text-white py-16">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-lg-6">
+              <h1 className="display-4 fw-bold mb-4">
+                Selamat Datang di Toko Online
+              </h1>
+              <p className="lead mb-4">
+                Temukan berbagai produk berkualitas dengan harga terbaik. 
+                Belanja online aman, nyaman, dan terpercaya.
+              </p>
+              <a href="#produk" className="btn btn-light btn-lg">
+                Mulai Belanja
+              </a>
+            </div>
+            <div className="col-lg-6">
+              <div className="text-center">
+                <Image 
+                  src="https://via.placeholder.com/500x300?text=Hero+Image" 
+                  alt="Hero" 
+                  width={500}
+                  height={300}
+                  className="img-fluid rounded"
+                />
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      {/* Featured Categories */}
+      <section className="py-5 bg-light">
+        <div className="container">
+          <h2 className="text-center mb-5">Kategori Unggulan</h2>
+          <div className="row g-4">
+            <div className="col-md-3 col-6">
+              <div className="card text-center h-100 border-0 shadow-sm">
+                <div className="card-body">
+                  <i className="fa fa-mobile-alt fa-3x text-success mb-3"></i>
+                  <h5 className="card-title">Smartphone</h5>
+                  <p className="card-text text-muted">100+ Produk</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-3 col-6">
+              <div className="card text-center h-100 border-0 shadow-sm">
+                <div className="card-body">
+                  <i className="fa fa-laptop fa-3x text-success mb-3"></i>
+                  <h5 className="card-title">Laptop</h5>
+                  <p className="card-text text-muted">50+ Produk</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-3 col-6">
+              <div className="card text-center h-100 border-0 shadow-sm">
+                <div className="card-body">
+                  <i className="fa fa-headphones fa-3x text-success mb-3"></i>
+                  <h5 className="card-title">Audio</h5>
+                  <p className="card-text text-muted">75+ Produk</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-3 col-6">
+              <div className="card text-center h-100 border-0 shadow-sm">
+                <div className="card-body">
+                  <i className="fa fa-camera fa-3x text-success mb-3"></i>
+                  <h5 className="card-title">Fotografi</h5>
+                  <p className="card-text text-muted">30+ Produk</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Product List */}
+      <section id="produk" className="py-5">
+        <ProductList data={mockProductListData} title="Produk Terbaru" />
+      </section>
+
+      {/* Features Section */}
+      <section className="py-5 bg-light">
+        <div className="container">
+          <div className="row g-4">
+            <div className="col-md-4 text-center">
+              <i className="fa fa-shipping-fast fa-3x text-success mb-3"></i>
+              <h5>Pengiriman Cepat</h5>
+              <p className="text-muted">Gratis ongkir untuk pembelian di atas Rp 500.000</p>
+            </div>
+            <div className="col-md-4 text-center">
+              <i className="fa fa-shield-alt fa-3x text-success mb-3"></i>
+              <h5>Garansi 100%</h5>
+              <p className="text-muted">Produk original dengan garansi resmi</p>
+            </div>
+            <div className="col-md-4 text-center">
+              <i className="fa fa-headset fa-3x text-success mb-3"></i>
+              <h5>Layanan 24/7</h5>
+              <p className="text-muted">Customer service siap membantu Anda</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
